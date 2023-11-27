@@ -1,12 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-
-/**
- * WHAT IS THIS FILE?
- *
- * Globally applied styles. No matter which components are in the page or matching route,
- * the styles in here will be applied to the Document, without any sort of CSS scoping.
- *
- */
 html {
   -webkit-text-size-adjust: 100%;
   -moz-tab-size: 4;
@@ -32,4 +28,100 @@ html {
 body {
   padding: 0;
   line-height: inherit;
+
+ font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  line-height: 130%;
+
+  /* Tablet styles */
+  @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')){
+    font-size: 16px;
+    line-height: 120%;
+  }
+}
+
+/* Инпут аудио */
+.input-audio {
+  background-color: var(--colors-audioInputColor);
+  /* Добавьте другие стили, такие как размер шрифта, высота строки и т. д. */
+}
+
+/* Графика аудио */
+.audio-graphics {
+  color: var(--colors-audioGraphicsColor);
+ 
+}
+
+/* Поле ввода сообщения */
+.message-input {
+  background-color: var(--colors-messageInputColor);
+ 
+}
+
+/* Обводка для кнопок */
+.button-outline-white {
+  border: 1px solid var(--colors-buttonOutlineWhite);
+ 
+}
+
+.button-outline-transparent {
+  border: 1px solid var(--colors-buttonOutlineTransparent);
+ 
+}
+
+/* Подложка Юнити */
+.unity-background {
+  background-color: var(--colors-unityBackgroundBlack);
+  width: 310px; /* Пример ширины, подстройте под ваши требования */
+
+}
+
+/* Фон чата (градиент) */
+.chat-background {
+  background: linear-gradient(to bottom, var(--colors-chatBackgroundGradientStart), var(--colors-chatBackgroundGradientEnd));
+ 
+}
+
+/* Background для input и звукового поля */
+.input-sound-field {
+  background-color: var(--colors-inputAndSoundFieldBackground);
+ 
+}
+
+/* Стили для инпута */
+.input {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  line-height: 130%;
+
+  /* Tablet styles */
+  @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')){
+    font-size: 18px;
+  }
+}
+
+/* Стили для ссылки */
+.link {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 130%;
+
+  /* Tablet styles */
+  @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')){
+    font-size: 14px;
+  }
+}
+
+/* Стили для ошибки */
+.error {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  line-height: 130%;
+
+  /* Tablet styles */
+  @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')){
+    font-size: 16px;
+    line-height: 120%;
+  }
 }

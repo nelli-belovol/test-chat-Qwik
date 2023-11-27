@@ -1,15 +1,22 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useSignal } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 
 export default component$(() => {
+const counter = useSignal(0);
+console.log("loaded")
+
   return (
     <>
       <h1>Hi 👋</h1>
       <p>
-        Can't wait to see what you build with qwik!
-        <br />
-        Happy coding.
+     {counter.value}
       </p>
+			<button onClick$={()=>{
+				console.log('test')
+			}}>Click</button><button onClick$={()=>{
+				counter.value++
+			}}>Increment</button>
+	
     </>
   );
 });
