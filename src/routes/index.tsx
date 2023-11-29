@@ -1,32 +1,21 @@
-import { component$, useSignal } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
+import { component$ } from '@builder.io/qwik';
+import type { DocumentHead } from '@builder.io/qwik-city';
+import UnityComponent from '~/components/UnityComponent';
 
 export default component$(() => {
-const counter = useSignal(0);
-console.log("loaded")
-
   return (
     <>
-      <h1>Hi 👋</h1>
-      <p>
-     {counter.value}
-      </p>
-			<button onClick$={()=>{
-				console.log('test')
-			}}>Click</button><button onClick$={()=>{
-				counter.value++
-			}}>Increment</button>
-	
+      <UnityComponent />
     </>
   );
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
+  title: 'Welcome to Qwik',
   meta: [
     {
-      name: "description",
-      content: "Qwik site description",
+      name: 'description',
+      content: 'Qwik site description',
     },
   ],
 };

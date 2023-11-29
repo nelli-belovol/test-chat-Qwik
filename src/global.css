@@ -4,6 +4,7 @@
 @tailwind utilities;
 
 html {
+  height: 100vh;
   -webkit-text-size-adjust: 100%;
   -moz-tab-size: 4;
   -o-tab-size: 4;
@@ -13,31 +14,34 @@ html {
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
-    "Segoe UI",
+    'Segoe UI',
     Roboto,
-    "Helvetica Neue",
+    'Helvetica Neue',
     Arial,
-    "Noto Sans",
+    'Noto Sans',
     sans-serif,
-    "Apple Color Emoji",
-    "Segoe UI Emoji",
-    "Segoe UI Symbol",
-    "Noto Color Emoji";
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    'Noto Color Emoji';
 }
 
 body {
   padding: 0;
   line-height: inherit;
-
- font-family: 'Montserrat', sans-serif;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
   font-size: 12px;
   line-height: 130%;
 
   /* Tablet styles */
-  @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')){
+  /* @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')) {
     font-size: 16px;
     line-height: 120%;
-  }
+  } */
 }
 
 /* Инпут аудио */
@@ -49,43 +53,51 @@ body {
 /* Графика аудио */
 .audio-graphics {
   color: var(--colors-audioGraphicsColor);
- 
 }
 
 /* Поле ввода сообщения */
 .message-input {
   background-color: var(--colors-messageInputColor);
- 
 }
 
 /* Обводка для кнопок */
 .button-outline-white {
   border: 1px solid var(--colors-buttonOutlineWhite);
- 
 }
 
 .button-outline-transparent {
   border: 1px solid var(--colors-buttonOutlineTransparent);
- 
 }
 
 /* Подложка Юнити */
 .unity-background {
   background-color: var(--colors-unityBackgroundBlack);
   width: 310px; /* Пример ширины, подстройте под ваши требования */
-
 }
 
 /* Фон чата (градиент) */
 .chat-background {
-  background: linear-gradient(to bottom, var(--colors-chatBackgroundGradientStart), var(--colors-chatBackgroundGradientEnd));
- 
+  background: linear-gradient(
+    to bottom,
+    var(--colors-chatBackgroundGradientStart),
+    var(--colors-chatBackgroundGradientEnd)
+  );
 }
 
 /* Background для input и звукового поля */
 .input-sound-field {
   background-color: var(--colors-inputAndSoundFieldBackground);
- 
+}
+
+.gradient-border {
+  align-items: center;
+  background-clip: content-box, border-box;
+  background-image: linear-gradient(#171717, #171717),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.2), 47.83%, white);
+  background-origin: border-box;
+  border: 1px double transparent;
+  border-radius: 150px;
+  cursor: pointer;
 }
 
 /* Стили для инпута */
@@ -95,7 +107,7 @@ body {
   line-height: 130%;
 
   /* Tablet styles */
-  @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')){
+  @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')) {
     font-size: 18px;
   }
 }
@@ -108,7 +120,7 @@ body {
   line-height: 130%;
 
   /* Tablet styles */
-  @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')){
+  @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')) {
     font-size: 14px;
   }
 }
@@ -120,7 +132,7 @@ body {
   line-height: 130%;
 
   /* Tablet styles */
-  @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')){
+  @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')) {
     font-size: 16px;
     line-height: 120%;
   }
