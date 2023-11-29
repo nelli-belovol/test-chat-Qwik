@@ -1,9 +1,11 @@
 import WaveSurfer from 'wavesurfer.js';
+import WriteMessageComponent from '../WriteMessageComponent';
 import {
   component$,
   useSignal,
-  useTask$,
   useVisibleTask$,
+  noSerialize,
+  type NoSerialize,
 } from '@builder.io/qwik';
 import VolumeSvg from '../../assets/svg/volume';
 import ArrowDownSvg from '../../assets/svg/arrowDown';
@@ -17,49 +19,68 @@ const urlTrack =
 
 export default component$(() => {
   const isOpen = useSignal(false);
-  const waveRef = useSignal<HTMLElement>();
+  const isPlay = useSignal(false);
+  const waveformRef = useSignal<HTMLElement>();
   const totalMin = useSignal(0);
+  const wavesurfer = useSignal<NoSerialize<WaveSurfer>>();
   const totalSec = useSignal(14);
 
-  const url = useSignal('https://api.github.com/repos/BuilderIO/qwik');
+  useVisibleTask$(async ({ track }) => {
+    track(() => isPlay.value);
+    track(() => wavesurfer.value);
 
-  useTask$(({ track }) => {
-    track(() => url.value);
-    console.log(url.value);
+    const waveSurferInstance = wavesurfer.value;
+
+    if (isPlay.value && waveSurferInstance) {
+      try {
+        await waveSurferInstance.play();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    if (!isPlay.value && waveSurferInstance) {
+      try {
+        await waveSurferInstance.pause();
+      } catch (error) {
+        console.error(error);
+      }
+    }
   });
 
   useVisibleTask$(({ track }) => {
-    track(() => waveRef.value);
-    if (waveRef.value) {
-      WaveSurfer.create({
-        height: 28,
-        width: '100%',
-        container: waveRef.value,
-        waveColor: '#9CA3AF',
-        progressColor: '#8B5CF6',
-        cursorColor: '$blue',
+    track(() => waveformRef.value);
+    if (waveformRef.value) {
+      wavesurfer.value = noSerialize(
+        WaveSurfer.create({
+          height: 28,
+          container: waveformRef.value,
+          waveColor: '#9CA3AF',
+          progressColor: '#8B5CF6',
+          cursorColor: '$blue',
 
-        normalize: false,
-        cursorWidth: 2,
-        barWidth: 6,
-        barGap: 3,
-        barRadius: 27,
+          normalize: false,
+          cursorWidth: 2,
+          barWidth: 6,
+          barGap: 3,
+          barRadius: 27,
 
-        minPxPerSec: 1,
-        fillParent: true,
+          minPxPerSec: 1,
+          fillParent: true,
 
-        mediaControls: false,
-        autoplay: false,
-        interact: true,
-        dragToSeek: true,
-        hideScrollbar: true,
-        audioRate: 1,
-        autoScroll: true,
-        autoCenter: true,
-        sampleRate: 8000,
+          mediaControls: false,
+          autoplay: false,
+          interact: true,
+          dragToSeek: true,
+          hideScrollbar: true,
+          audioRate: 1,
+          autoScroll: true,
+          autoCenter: true,
+          sampleRate: 8000,
 
-        url: urlTrack,
-      });
+          url: urlTrack,
+        }),
+      );
     }
   });
 
@@ -78,7 +99,7 @@ export default component$(() => {
   ].join(' ');
 
   return (
-    <div class="w-[390px] mx-auto mt-auto mb-0 relative">
+    <div class="w-[390px] mx-auto mt-auto relative mb-[70px] ">
       <div class={headClasses}>
         <div class="flex w-[302px] py-3 px-4 justify-between items-center bg-chatBackgroundGradientEnd rounded-[150px] text-white">
           <div class="gradient-border ">
@@ -111,26 +132,44 @@ export default component$(() => {
       </div>
 
       {isOpen.value && (
-        <div class="h-[347px] px-[40px] py-[15px] bg-black rounded-[24px] border-1 border-solid border-[#9363FD] bg-bg-gr shadow-md w-full text-white flex gap-[10px] flex-col justify-end">
-          <div class="flex items-center gap-[8px]">
-            <img src={unityMini} alt="unity" width="26" height="26" />
-            <p class="text-chatIncomingColor">
-              Добрый день, меня зовут Юнити! Я разработка компании UWP digital.
-            </p>
+        <div class="h-[347px] px-[40px] py-[15px] bg-black rounded-[24px] border-1 border-solid border-[#9363FD] bg-bg-gr shadow-[0px_30px_30px_0px_rgba(0,0,0,0.40)] text-white">
+          <div class="h-[100%] flex gap-[20px] flex-col justify-end">
+            <div>
+              <div class="flex flex-row gap-[8px]">
+                <div class="w-[26px] h-[26px]">
+                  <img src={unityMini} alt="unity" width="26" height="26" />
+                </div>
+
+                <div class="w-full h-[100%] flex gap-[10px] flex-col justify-end">
+                  <p class="text-chatIncomingColor">
+                    Добрый день, меня зовут Юнити! Я разработка компании UWP
+                    digital.
+                  </p>
+
+                  <div class="w-max min-w-[200px] flex items-center justify-between gap-[12px] bg-audioInputColor rounded-[20px] pr-[6px]">
+                    <div
+                      onClick$={() => (isPlay.value = !isPlay.value)}
+                      class="w-[24px] h-[24px] cursor-pointer"
+                    >
+                      <PauseSvg />
+                    </div>
+                    <div ref={waveformRef}></div>
+                    <p>
+                      {totalMin}:{totalSec}
+                    </p>
+                  </div>
+                  <a
+                    class="text-[#864DFF] text-underline font-medium  font-montserrat text-base block"
+                    href="https://uwp.digital/en"
+                  >
+                    https://uwp.digital/en
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <WriteMessageComponent />
           </div>
-          <div class="flex items-center gap-[12px]">
-            <PauseSvg />
-            <div ref={waveRef} class="w-full"></div>
-            <p>
-              {totalMin}:{totalSec}
-            </p>
-          </div>
-          <a
-            class="text-[#864DFF] text-underline font-medium  font-montserrat text-base block"
-            href="https://uwp.digital/en"
-          >
-            https://uwp.digital/en
-          </a>
         </div>
       )}
     </div>

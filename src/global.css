@@ -4,6 +4,7 @@
 @tailwind utilities;
 
 html {
+  box-sizing: border-box;
   height: 100vh;
   -webkit-text-size-adjust: 100%;
   -moz-tab-size: 4;
@@ -102,10 +103,15 @@ body {
 
 /* Стили для инпута */
 .input {
+  width: 100%;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   line-height: 130%;
-
+  outline: none;
+  padding: 4px 36px 4px 8px;
+  ::placeholder {
+    color: #dedede;
+  }
   /* Tablet styles */
   @media screen and (min-width: theme('screens.md')) and (max-width: theme('screens.lg')) {
     font-size: 18px;
